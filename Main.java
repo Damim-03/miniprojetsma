@@ -1,41 +1,23 @@
 package com.retima;
 
-import javax.swing.*;
-
 import com.retima.agents.AgentManager;
-import com.retima.ui.MainMenu;
-import jade.core.Profile;
-import jade.core.ProfileImpl;
-import jade.core.Runtime;
-import jade.wrapper.AgentContainer;
-import javax.swing.*;
-import java.awt.*;
-import jade.core.Profile;
-import jade.wrapper.AgentContainer;
+import com.retima.ui.AddSellerUI;
+import com.retima.ui.AddTenantUI; // اذا واجهة المستأجر عندك اسمها هكذا
+import com.retima.ui.AgentsListUI;
+
+import javax.swing.SwingUtilities;
 
 public class Main {
-     private static AgentContainer mainContainer;
-
     public static void main(String[] args) {
-        // إعداد JADE
-        Profile profile = new ProfileImpl();
-        profile.setParameter(Profile.GUI, "true");
-        profile.setParameter(Profile.MAIN_HOST, "localhost");
-        profile.setParameter(Profile.MAIN_PORT, "1099");
-
-        mainContainer = Runtime.instance().createMainContainer(profile);
-
-        // تهيئة نظام الوكلاء JADE
+        // 1. تشغيل JADE مع الواجهة
         AgentManager.initializeJADE();
 
-        // بدء واجهة المستخدم
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                MainMenu mainMenu = new MainMenu();
-                mainMenu.setVisible(true);
-            }
+        // 2. إظهار الواجهات في نفس الوقت
+        SwingUtilities.invokeLater(() -> {
+            new AddSellerUI();
+            new AddTenantUI();
+             new AgentsListUI().setVisible(true);
         });
-         
+        
     }
 }
